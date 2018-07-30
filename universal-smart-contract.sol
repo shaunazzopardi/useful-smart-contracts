@@ -1,3 +1,6 @@
+//This contract can be used as the interface to (almost) any smart contract.
+//Using this as an interface ensures that any dependencies on the address of this smart contract can be fulfilled.
+
 contract UniversalSmartContract{
     address owner;
     address implementation;
