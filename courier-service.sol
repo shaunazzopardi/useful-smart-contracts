@@ -3,6 +3,10 @@ contract CourierService{
     address owner;
     
     mapping(uint => address) orderToCustomer;
+    mapping(uint => uint) orderETA;
+    mapping(uint => uint) orderDeliveryTime;
+    uint lateOrders;
+    uint inTimeOrders;
     mapping(uint => address) orderToCourier;
     mapping(uint => address) confirmedBy;
     mapping(uint => bool) delivered;
@@ -16,26 +20,25 @@ contract CourierService{
         _;
     }
     
-    function addOrder(address customer, address courier, uint orderNo){
+    function addOrder(address customer, address courier, uint orderNo, uint eta){
         orderToCustomer[orderNo] = customer;
         orderToCourier[orderNo] = courier;
+        orderETA[orderNo] = eta;
     }
     
-    function sign(uint orderNo){
-        require(msg.sender == orderToCustomer[orderNo] || msg.sender == orderToCourier[orderNo]);
-                    
-        if(confirmedBy[orderNo] == 0 && !delivered[orderNo]){
-            confirmedBy[orderNo] = msg.sender;
+    function customerSignature(uint orderNo){
+        require(!delivered[orderNo]);
+        
+        confirmedBy[orderNo] = msg.sender;
+        delivered[orderNo] = true;
+        
+        orderDeliveryTime[orderNo] = now;
+        
+        if(orderETA[orderNo] <= now){
+            inTimeOrders++;
         }
         else{
-            if(confirmedBy[orderNo] == orderToCustomer[orderNo]
-                && msg.sender == orderToCourier[orderNo]){
-                    delivered[orderNo] = true;
-                }
-                else if(confirmedBy[orderNo] == orderToCourier[orderNo]
-                        && msg.sender == orderToCustomer[orderNo]){
-                            delivered[orderNo] = true;
-                        }
+            lateOrders++;
         }
     }
 }
