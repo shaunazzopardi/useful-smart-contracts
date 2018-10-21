@@ -5,8 +5,6 @@ contract CourierService{
     mapping(uint => address) orderToCustomer;
     mapping(uint => uint) orderETA;
     mapping(uint => uint) orderDeliveryTime;
-    uint lateOrders;
-    uint inTimeOrders;
     mapping(uint => address) orderToCourier;
     mapping(uint => address) confirmedBy;
     mapping(uint => bool) delivered;
@@ -33,12 +31,5 @@ contract CourierService{
         delivered[orderNo] = true;
         
         orderDeliveryTime[orderNo] = now;
-        
-        if(orderETA[orderNo] <= now){
-            inTimeOrders++;
-        }
-        else{
-            lateOrders++;
-        }
     }
 }
