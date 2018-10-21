@@ -9,3 +9,6 @@ __storage-contract-proxy-template.sol__: A standard proxy pattern for storing st
 __universal-smart-contract.sol__: A smart contract that can be used as the entry-point of any other smart contract. Allows for updateable smart contracts while leaving the same entry-point active.
 
 __courier-service.sol__: An implementation of a signing to confirm delivery from a courier service.
+
+
+__useful-functions.sol__: Various useful functions -- currently (i) a function to check whether this a smart contract at a certain address.
