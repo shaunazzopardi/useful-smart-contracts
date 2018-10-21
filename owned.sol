@@ -2,7 +2,7 @@ contract Owned{
   address owner;
   
   function Owner(){
-    owner = this.address;
+    owner = msg.sender;
   }
   
   modifier isOwner(){
