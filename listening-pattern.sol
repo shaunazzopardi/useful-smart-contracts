@@ -1,19 +1,17 @@
 interface Listener{
-    function notify();
+    function notify(string message);
 }
 
 contract Notifier{
 
-  mapping(address => boolean) listening;
+  mapping(address => bool) listening;
   address[] listeners;
   
-  function funcName(){
-      //some action
-      
-      for(uint i = 0; i < listeners.length; i++){
+  function notifyListeners(string message){
+  for(uint i = 0; i < listeners.length; i++){
           if(listeners[i] > 0
                             && listening[listeners[i]]){
-              (Listener(listeners[i])).notify();
+              (Listener(listeners[i])).notify(message);
           }
       }
   }
